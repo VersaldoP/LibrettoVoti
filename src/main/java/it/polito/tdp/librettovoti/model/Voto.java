@@ -32,7 +32,7 @@ public class Voto {
 	}
 	@Override
 	public String toString() {
-		return "Esame=" + nome + " superato con" + voto + " il" + data;
+		return "Esame " + nome + " superato con " + voto + " il " + data;
 	}
 	
 
