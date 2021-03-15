@@ -2,26 +2,32 @@ package it.polito.tdp.librettovoti.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Libretto {
 
 	private List<Voto> voti;
+	private Map<String,Voto>votiMap; //identity map:nome esame -> oggetto voto
 
 	public Libretto() {
 		
 		this.voti = new ArrayList<>();
+		this.votiMap = new HashMap<>();
+//		System.out.println("Sono libretto");
 	}
 	public void add(Voto v) {
 	
-	for(Voto c:voti) {
-		if(c.getNome().equals(v.getNome())) {
-	     return;
-	     
-		}
-	}
+//	for(Voto c:voti) {
+//		if(c.getNome().equals(v.getNome())) {
+//	     return;
+//	     
+//		}
+//	}
 	this.voti.add(v);
+	this.votiMap.put(v.getNome(),v);
 	}
 	
 	public List<Voto> listaVotiUguali(int punteggio){
@@ -35,16 +41,67 @@ public class Libretto {
 	}
 	
 	public Voto ricercaCorso(String corso){
-		Voto risultato=null;
-		for(Voto v:this.voti) {
-			if(v.getNome().equals(corso)) {
-				risultato=v;
-				break;
-			}
-		}
-		return risultato;
+//		Voto risultato=null;
+//		for(Voto v:this.voti) {
+//			if(v.getNome().equals(corso)) {
+//				risultato=v;
+//				break;
+//			}
+//		}
+//		return risultato;
+		return votiMap.get(corso);
 	}
-	 
+	/*
+	 * Verifica se nel libreto c'è già un voto con lo stesso esame e la stessa votazione 
+	 */
+	public boolean esisteDuplicato(Voto v) {
+//		boolean trovato = false;
+//		for(Voto voto:this.voti) {
+//			if(voto.getNome().equals(v.getNome())&&voto.getVoto()==v.getVoto()) {
+//				trovato=true;
+//				break;
+//			}
+//		}
+//		return trovato;
+//		
+		Voto trovato = this.votiMap.get(v.getNome());
+				if (trovato== null) {
+					return false;
+				}
+				if(v.getVoto()==trovato.getVoto()) {
+					return true;
+						
+				}
+				else {
+					return false;
+				}
+				
+	}
+	
+	/*
+	 * 
+	 */
+	public boolean esisteConflitto(Voto v) {
+//		boolean trovato = false;
+//		for(Voto voto:this.voti) {
+//			if(voto.getNome().equals(v.getNome())&&voto.getVoto()!=v.getVoto()) {
+//				trovato=true;
+//				break;
+//			}
+//		}
+//		return trovato;
+		Voto trovato = this.votiMap.get(v.getNome());
+		if (trovato== null) {
+			return false;
+		}
+		if(v.getVoto()!=trovato.getVoto()) {
+			return true;
+				
+		}
+		else {
+			return false;
+		}
+	}
 	public Libretto  migliorato(){
 		List<Voto> m =new ArrayList<>();
 		for(Voto v: voti) {
